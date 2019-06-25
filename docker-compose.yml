@@ -1,0 +1,22 @@
+version: "3"
+services:
+
+  catpower-api-service:
+    image: deadmolesstudio/catpower-server
+    container_name: catpower-server
+    depends_on:
+      - auth-service
+    env_file:
+      - api.env
+
+  auth-service:
+    image: deadmolesstudio/ketnipz-auth-service
+    container_name: auth-service
+    env_file:
+      - auth.env
+
+# external network with nginx, databases
+networks:
+  default:
+    external:
+      name: ketnipz-net
