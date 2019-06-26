@@ -19,12 +19,12 @@ func uploadFile(w http.ResponseWriter, r *http.Request, key, dir string) string 
 		w.WriteHeader(http.StatusInternalServerError)
 		return ""
 	}
-	avatar, fileHeader, err := r.FormFile(key)
+	file, fileHeader, err := r.FormFile(key)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return ""
 	}
-	defer avatar.Close()
+	defer file.Close()
 
 	uID := r.Context().Value(middleware.KeyUserID).(uint)
 	filename := fileHeader.Filename
@@ -34,7 +34,7 @@ func uploadFile(w http.ResponseWriter, r *http.Request, key, dir string) string 
 		w.WriteHeader(http.StatusInternalServerError)
 		return ""
 	}
-	err = filesystem.SaveFile(avatar, dir, filename)
+	err = filesystem.SaveFile(file, dir, filename)
 	if err != nil {
 		logger.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
