@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/go-park-mail-ru/2018_2_DeadMolesStudio/session"
 	"golang.org/x/crypto/bcrypt"
 
@@ -60,7 +59,7 @@ func (s *Server) logIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	u := &models.UserProfile{}
-	if err = u.UnmarshalJSON(body); err != nil || !govalidator.IsEmail(u.Email) {
+	if err = u.UnmarshalJSON(body); err != nil || u.Username == "" || u.Password == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
