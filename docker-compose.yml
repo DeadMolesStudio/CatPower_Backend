@@ -4,6 +4,8 @@ services:
   catpower-api-service:
     image: deadmolesstudio/catpower-server
     container_name: catpower-server
+    volumes:
+      - /opt/dmstudio/media:/app/media
     depends_on:
       - auth-service
     env_file:
